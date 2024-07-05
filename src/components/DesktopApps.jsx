@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import Window from './Window';
+import MusicPlayer from './MusicPlayer';
 
 const DesktopApps = () => {
   const [showWindow, setShowWindow] = useState(false);
+  const [showMusicPlayer, setShowMusicPlayer] = useState(false);
   const [defaultApp, setDefaultApp] = useState('C:\\');
 
   const changeApp = (app) => {
-    setDefaultApp(app);
-    setShowWindow(true);
+    if (app === 'music') {
+      setShowMusicPlayer(true);
+      setShowWindow(false);
+    } else {
+      setDefaultApp(app);
+      setShowWindow(true);
+      setShowMusicPlayer(false);
+    }
   };
 
   return (
@@ -56,7 +64,8 @@ const DesktopApps = () => {
           </div>
         </section>
       </div>
-      <Window show={showWindow} onClose={() => setShowWindow(false)} defaultApp={defaultApp} />
+      {showWindow && <Window show={showWindow} onClose={() => setShowWindow(false)} defaultApp={defaultApp} />}
+      {showMusicPlayer && <MusicPlayer show={showMusicPlayer} onClose={() => setShowMusicPlayer(false)} />}
     </div>
   );
 };

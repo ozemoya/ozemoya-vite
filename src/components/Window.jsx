@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const Window = ({ show, onClose, defaultApp }) => {
+const Window = ({ show = true, onClose, defaultApp = 'C:\\' }) => {
   const [showContacts, setShowContacts] = useState(false);
   const [showProjectInfo, setShowProjectInfo] = useState(false);
   const [showServices, setShowServices] = useState(false);
-  const [showMusic, setShowMusic] = useState(false);
-  const [address, setAddress] = useState('C:\\');
+
+  const [address, setAddress] = useState(defaultApp);
   const [folderContent, setFolderContent] = useState([]);
   const windowRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -18,25 +18,24 @@ const Window = ({ show, onClose, defaultApp }) => {
           setShowContacts(true);
           setShowProjectInfo(false);
           setShowServices(false);
-          setShowMusic(false);
+          
           setAddress('contacts');
           break;
         case 'project':
           setShowProjectInfo(true);
           setShowContacts(false);
           setShowServices(false);
-          setShowMusic(false);
+     
           setAddress('project');
           break;
         case 'services':
           setShowServices(true);
           setShowContacts(false);
           setShowProjectInfo(false);
-          setShowMusic(false);
+         
           setAddress('services');
           break;
         case 'music':
-          setShowMusic(true);
           setShowContacts(false);
           setShowProjectInfo(false);
           setShowServices(false);
@@ -54,32 +53,30 @@ const Window = ({ show, onClose, defaultApp }) => {
   }, [show, defaultApp]);
 
   const handleContactClick = () => {
-    setShowContacts(!showContacts);
+    setShowContacts(true);
     setShowProjectInfo(false);
     setShowServices(false);
     setShowMusic(false);
+    setAddress('contacts');
   };
 
   const handleProjectClick = () => {
-    setShowProjectInfo(!showProjectInfo);
+    setShowProjectInfo(true);
     setShowContacts(false);
     setShowServices(false);
     setShowMusic(false);
+    setAddress('project');
   };
 
   const handleServicesClick = () => {
-    setShowServices(!showServices);
+    setShowServices(true);
     setShowContacts(false);
     setShowProjectInfo(false);
     setShowMusic(false);
+    setAddress('services');
   };
 
-  const handleMusicClick = () => {
-    setShowMusic(!showMusic);
-    setShowContacts(false);
-    setShowProjectInfo(false);
-    setShowServices(false);
-  };
+  
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -152,7 +149,7 @@ const Window = ({ show, onClose, defaultApp }) => {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center">
+    <div>
       <div
         ref={windowRef}
         className="w-full max-w-4xl mx-auto mt-10 bg-gray-100 border border-gray-300 shadow-lg absolute"
@@ -167,7 +164,7 @@ const Window = ({ show, onClose, defaultApp }) => {
           <div className="flex space-x-2">
             <button className="bg-gray-300 p-1 rounded-full">_</button>
             <button className="bg-gray-300 p-1 rounded-full">☐</button>
-            <button className="bg-gray-300 p-1 rounded-full"             onClick={onClose}>X</button>
+            <button className="bg-gray-300 p-1 rounded-full" onClick={onClose}>X</button>
           </div>
         </div>
         <div className="flex">
@@ -183,7 +180,7 @@ const Window = ({ show, onClose, defaultApp }) => {
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleProjectClick}>Project</li>
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleContactClick}>Contacts</li>
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleServicesClick}>Services</li>
-              
+
               </ul>
               <li className="mb-2"><span className="font-semibold">My Network Places</span></li>
               <li className="mb-2"><span className="font-semibold">Recycle Bin</span></li>
@@ -221,7 +218,7 @@ const Window = ({ show, onClose, defaultApp }) => {
                   <h2 className="font-bold text-lg mb-2">Projects</h2>
                   <menu> 
                     <a href="https://ozemoya.github.io/tictactoe/" className="text-sm text-blue-500 hover:underline mb-2">Tic-Tac-Toe</a>
-                    <a href="https://ozemoya.github.io/investment-project/" className=" p-3 text-sm text-blue-500 hover:underline mb-2">Investment Project</a>
+                    <a href="https://ozemoya.github.io/investment-project/" className="text-sm text-blue-500 hover:underline mb-2">Investment Project</a>
                   </menu>
                 </div>
               ) : showServices ? (
