@@ -3,14 +3,12 @@ import './tailwind.css'; // Import Tailwind CSS
 import DesktopApps from "./components/DesktopApps";
 import Window from "./components/Window";
 import MusicPlayer from "./components/MusicPlayer";
-import SpotifyPlayer from "./components/SpotifyPlayer";
 import Taskbar from "./components/Taskbar";
 import LoadingScreen from "./components/LoadingScreen";
 
 const App = () => {
   const [showWindow, setShowWindow] = useState(false);
   const [showMusicPlayer, setShowMusicPlayer] = useState(false);
-  const [showSpotify, setShowSpotify] = useState(false);
   const [headlines, setHeadlines] = useState([]);
 
   useEffect(() => {
@@ -61,7 +59,6 @@ const App = () => {
       />
       <Window show={showWindow} onClose={() => setShowWindow(false)} />
       <MusicPlayer show={showMusicPlayer} onClose={() => setShowMusicPlayer(false)} />
-      <SpotifyPlayer show={showSpotify} />
       <Taskbar headlines={headlines} />
       <LoadingScreen />
     </div>

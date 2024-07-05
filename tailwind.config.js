@@ -23,7 +23,7 @@
         'custom-size': '70%', 
       },
       animation: {
-        fadeOut: 'fadeOut 8s ease-in-out forwards',
+        fadeOut: 'fadeOut 3s ease-in-out forwards',
       },
     },
   },

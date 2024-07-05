@@ -14,7 +14,7 @@ const Window = ({ show, onClose }) => {
     if (show) {
       setShowContacts(false);
       setShowProjectInfo(false);
-      setShowServices(true); // Automatically show services when the window is shown
+      setShowServices(false); // Do not automatically show services when the window is shown
     }
   }, [show]);
 

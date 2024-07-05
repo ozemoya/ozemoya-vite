@@ -32,6 +32,12 @@ const MusicPlayer = ({ show, onClose }) => {
     playerRef.current = event.target;
   };
 
+  const onEnd = () => {
+    if (playerRef.current) {
+      playerRef.current.playVideo();
+    }
+  };
+
   const onStateChange = (event) => {
     if (event.data === window.YT.PlayerState.PLAYING) {
       const player = playerRef.current;
@@ -64,8 +70,15 @@ const MusicPlayer = ({ show, onClose }) => {
             <YouTube
               videoId={videoId}
               onReady={onReady}
+              onEnd={onEnd}
               onStateChange={onStateChange}
-              opts={{ playerVars: { autoplay: 1 } }}
+              opts={{
+                playerVars: {
+                  autoplay: 1,
+                  loop: 1,
+                  playlist: videoId, // Required for looping
+                },
+              }}
               className="hidden"
             />
           )}
