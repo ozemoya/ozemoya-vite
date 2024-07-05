@@ -1,39 +1,84 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const Window = ({ show, onClose }) => {
+const Window = ({ show, onClose, defaultApp }) => {
   const [showContacts, setShowContacts] = useState(false);
   const [showProjectInfo, setShowProjectInfo] = useState(false);
   const [showServices, setShowServices] = useState(false);
+  const [showMusic, setShowMusic] = useState(false);
+  const [address, setAddress] = useState('C:\\');
+  const [folderContent, setFolderContent] = useState([]);
   const windowRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [address, setAddress] = useState('C:\\');
-  const [folderContent, setFolderContent] = useState([]);
 
   useEffect(() => {
     if (show) {
-      setShowContacts(false);
-      setShowProjectInfo(false);
-      setShowServices(false); // Do not automatically show services when the window is shown
+      switch (defaultApp) {
+        case 'contacts':
+          setShowContacts(true);
+          setShowProjectInfo(false);
+          setShowServices(false);
+          setShowMusic(false);
+          setAddress('contacts');
+          break;
+        case 'project':
+          setShowProjectInfo(true);
+          setShowContacts(false);
+          setShowServices(false);
+          setShowMusic(false);
+          setAddress('project');
+          break;
+        case 'services':
+          setShowServices(true);
+          setShowContacts(false);
+          setShowProjectInfo(false);
+          setShowMusic(false);
+          setAddress('services');
+          break;
+        case 'music':
+          setShowMusic(true);
+          setShowContacts(false);
+          setShowProjectInfo(false);
+          setShowServices(false);
+          setAddress('music');
+          break;
+        default:
+          setShowContacts(false);
+          setShowProjectInfo(false);
+          setShowServices(false);
+          setShowMusic(false);
+          setAddress('C:\\');
+          break;
+      }
     }
-  }, [show]);
+  }, [show, defaultApp]);
 
   const handleContactClick = () => {
     setShowContacts(!showContacts);
     setShowProjectInfo(false);
     setShowServices(false);
+    setShowMusic(false);
   };
 
   const handleProjectClick = () => {
     setShowProjectInfo(!showProjectInfo);
     setShowContacts(false);
     setShowServices(false);
+    setShowMusic(false);
   };
 
   const handleServicesClick = () => {
     setShowServices(!showServices);
     setShowContacts(false);
     setShowProjectInfo(false);
+    setShowMusic(false);
+  };
+
+  const handleMusicClick = () => {
+    setShowMusic(!showMusic);
+    setShowContacts(false);
+    setShowProjectInfo(false);
+    setShowServices(false);
   };
 
   const handleMouseDown = (e) => {
@@ -83,14 +128,22 @@ const Window = ({ show, onClose }) => {
       setShowContacts(true);
       setShowProjectInfo(false);
       setShowServices(false);
+      setShowMusic(false);
     } else if (address.toLowerCase() === 'project') {
       setShowProjectInfo(true);
       setShowContacts(false);
       setShowServices(false);
+      setShowMusic(false);
     } else if (address.toLowerCase() === 'services') {
       setShowServices(true);
       setShowContacts(false);
       setShowProjectInfo(false);
+      setShowMusic(false);
+    } else if (address.toLowerCase() === 'music') {
+      setShowMusic(true);
+      setShowContacts(false);
+      setShowProjectInfo(false);
+      setShowServices(false);
     } else {
       setFolderContent([]);
     }
@@ -114,7 +167,7 @@ const Window = ({ show, onClose }) => {
           <div className="flex space-x-2">
             <button className="bg-gray-300 p-1 rounded-full">_</button>
             <button className="bg-gray-300 p-1 rounded-full">☐</button>
-            <button className="bg-gray-300 p-1 rounded-full" onClick={onClose}>X</button>
+            <button className="bg-gray-300 p-1 rounded-full"             onClick={onClose}>X</button>
           </div>
         </div>
         <div className="flex">
@@ -130,6 +183,7 @@ const Window = ({ show, onClose }) => {
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleProjectClick}>Project</li>
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleContactClick}>Contacts</li>
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleServicesClick}>Services</li>
+              
               </ul>
               <li className="mb-2"><span className="font-semibold">My Network Places</span></li>
               <li className="mb-2"><span className="font-semibold">Recycle Bin</span></li>
@@ -167,14 +221,14 @@ const Window = ({ show, onClose }) => {
                   <h2 className="font-bold text-lg mb-2">Projects</h2>
                   <menu> 
                     <a href="https://ozemoya.github.io/tictactoe/" className="text-sm text-blue-500 hover:underline mb-2">Tic-Tac-Toe</a>
-                    <a href="https://ozemoya.github.io/investment-project/" className="p-5 text-sm text-blue-500 hover:underline mb-2">Investment Project</a>
+                    <a href="https://ozemoya.github.io/investment-project/" className=" p-3 text-sm text-blue-500 hover:underline mb-2">Investment Project</a>
                   </menu>
                 </div>
               ) : showServices ? (
                 <div>
                   <h2 className="font-bold text-lg mb-2">Services</h2>
                   <ul>
-                    <li className="mb-2">Service 1: Soon :) </li>
+                    <li className="mb-2">Service 1: Soon :)</li>
                     <li className="mb-2">Service 2: Soon :)</li>
                     <li className="mb-2">Service 3: Soon :)</li>
                   </ul>
