@@ -7,6 +7,8 @@ const Window = ({ show, onClose }) => {
   const windowRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [address, setAddress] = useState('C:\\');
+  const [folderContent, setFolderContent] = useState([]);
 
   useEffect(() => {
     if (show) {
@@ -69,6 +71,31 @@ const Window = ({ show, onClose }) => {
     };
   }, [isDragging]);
 
+  const handleGoClick = () => {
+    // Simulate folder content fetching based on address
+    if (address === 'C:\\') {
+      setFolderContent([
+        { name: 'Documents and Settings', icon: 'folder.png' },
+        { name: 'Program Files', icon: 'folder.png' },
+        { name: 'WINDOWS', icon: 'folder.png' },
+      ]);
+    } else if (address.toLowerCase() === 'contacts') {
+      setShowContacts(true);
+      setShowProjectInfo(false);
+      setShowServices(false);
+    } else if (address.toLowerCase() === 'project') {
+      setShowProjectInfo(true);
+      setShowContacts(false);
+      setShowServices(false);
+    } else if (address.toLowerCase() === 'services') {
+      setShowServices(true);
+      setShowContacts(false);
+      setShowProjectInfo(false);
+    } else {
+      setFolderContent([]);
+    }
+  };
+
   if (!show) return null;
 
   return (
@@ -111,13 +138,21 @@ const Window = ({ show, onClose }) => {
           <div className="flex-grow p-2">
             <div className="bg-white border border-gray-300 p-2 mb-2">
               <div className="flex items-center mb-2">
-                <div className="flex-grow text-left text-sm">Address: C:\</div>
-                <button className="bg-gray-300 p-1 rounded-full">Go</button>
+                <div className="flex-grow text-left text-sm">
+                  Address: 
+                  <input
+                    type="text"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    className="ml-2 p-1 border border-gray-300 rounded"
+                  />
+                </div>
+                <button className="bg-gray-300 p-1 rounded-full" onClick={handleGoClick}>Go</button>
               </div>
               <div className="flex space-x-4">
-                <div className="text-sm">Back</div>
-                <div className="text-sm">Search</div>
-                <div className="text-sm">Folders</div>
+                <div className="text-sm cursor-pointer">Back</div>
+                <div className="text-sm cursor-pointer">Search</div>
+                <div className="text-sm cursor-pointer">Folders</div>
               </div>
             </div>
             <div className="bg-white border border-gray-300 p-2">
@@ -146,9 +181,12 @@ const Window = ({ show, onClose }) => {
                 </div>
               ) : (
                 <ul>
-                  <li className="mb-2"><img src="folder.png" alt="Folder Icon" className="inline-block mr-2" /> Documents and Settings</li>
-                  <li className="mb-2"><img src="folder.png" alt="Folder Icon" className="inline-block mr-2" /> Program Files</li>
-                  <li className="mb-2"><img src="folder.png" alt="Folder Icon" className="inline-block mr-2" /> WINDOWS</li>
+                  {folderContent.map((item, index) => (
+                    <li key={index} className="mb-2">
+                      <img src={item.icon} alt="Folder Icon" className="inline-block mr-2" />
+                      {item.name}
+                    </li>
+                  ))}
                 </ul>
               )}
             </div>
