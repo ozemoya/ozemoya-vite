@@ -1,32 +1,88 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Window = ({ show, onClose }) => {
   const [showContacts, setShowContacts] = useState(false);
   const [showProjectInfo, setShowProjectInfo] = useState(false);
+  const [showServices, setShowServices] = useState(false);
+  const windowRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     if (show) {
       setShowContacts(false);
       setShowProjectInfo(false);
+      setShowServices(true); // Automatically show services when the window is shown
     }
   }, [show]);
-
-  if (!show) return null;
 
   const handleContactClick = () => {
     setShowContacts(!showContacts);
     setShowProjectInfo(false);
+    setShowServices(false);
   };
 
   const handleProjectClick = () => {
     setShowProjectInfo(!showProjectInfo);
     setShowContacts(false);
+    setShowServices(false);
   };
+
+  const handleServicesClick = () => {
+    setShowServices(!showServices);
+    setShowContacts(false);
+    setShowProjectInfo(false);
+  };
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    const rect = windowRef.current.getBoundingClientRect();
+    setDragOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
+
+  const handleMouseMove = (e) => {
+    if (isDragging) {
+      windowRef.current.style.left = `${e.clientX - dragOffset.x}px`;
+      windowRef.current.style.top = `${e.clientY - dragOffset.y}px`;
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    } else {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging]);
+
+  if (!show) return null;
 
   return (
     <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center">
-      <div className="w-full max-w-4xl mx-auto mt-10 bg-gray-100 border border-gray-300 shadow-lg">
-        <div className="bg-gray-200 border-b border-gray-300 p-2 flex items-center justify-between">
+      <div
+        ref={windowRef}
+        className="w-full max-w-4xl mx-auto mt-10 bg-gray-100 border border-gray-300 shadow-lg absolute"
+        style={{ top: '10px', left: '50%', transform: 'translateX(-50%)' }}
+        onMouseDown={(e) => e.stopPropagation()} // Prevent dragging the window when clicking inside it
+      >
+        <div
+          className="bg-gray-200 border-b border-gray-300 p-2 flex items-center justify-between cursor-move"
+          onMouseDown={handleMouseDown}
+        >
           <div className="text-left font-bold text-sm">Local Disk (C:)</div>
           <div className="flex space-x-2">
             <button className="bg-gray-300 p-1 rounded-full">_</button>
@@ -45,8 +101,8 @@ const Window = ({ show, onClose }) => {
                 <li className="mb-2">Local Disk (C:)</li>
                 <li className="mb-2">Control Panel</li>
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleProjectClick}>Project</li>
-<li className="mb-2 cursor-pointer text-blue-500" onClick={handleContactClick}>Contacts</li>
-                <li className="mb-2">Services</li>
+                <li className="mb-2 cursor-pointer text-blue-500" onClick={handleContactClick}>Contacts</li>
+                <li className="mb-2 cursor-pointer text-blue-500" onClick={handleServicesClick}>Services</li>
               </ul>
               <li className="mb-2"><span className="font-semibold">My Network Places</span></li>
               <li className="mb-2"><span className="font-semibold">Recycle Bin</span></li>
@@ -73,8 +129,20 @@ const Window = ({ show, onClose }) => {
                 </ul>
               ) : showProjectInfo ? (
                 <div>
-                  <h2 className="font-bold text-lg mb-2">Project Information</h2>
-                  <p className="text-sm mb-2">This is a sample project information.</p>
+                  <h2 className="font-bold text-lg mb-2">Projects</h2>
+                  <menu> 
+                    <a href="https://ozemoya.github.io/tictactoe/" className="text-sm text-blue-500 hover:underline mb-2">Tic-Tac-Toe</a>
+                    <a href="https://ozemoya.github.io/investment-project/" className="p-5 text-sm text-blue-500 hover:underline mb-2">Investment Project</a>
+                  </menu>
+                </div>
+              ) : showServices ? (
+                <div>
+                  <h2 className="font-bold text-lg mb-2">Services</h2>
+                  <ul>
+                    <li className="mb-2">Service 1: Soon :) </li>
+                    <li className="mb-2">Service 2: Soon :)</li>
+                    <li className="mb-2">Service 3: Soon :)</li>
+                  </ul>
                 </div>
               ) : (
                 <ul>

@@ -20,7 +20,7 @@
         },
       },
       backgroundSize: {
-        'custom-size': '80%', 
+        'custom-size': '70%', 
       },
       animation: {
         fadeOut: 'fadeOut 8s ease-in-out forwards',
