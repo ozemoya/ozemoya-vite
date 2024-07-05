@@ -12,12 +12,30 @@ const Headline = ({ headlines }) => {
     }
   }, [headlines]);
 
+  const handleClick = () => {
+    window.open(headlines[currentHeadline]?.url, '_blank');
+  };
+
   return (
-    <div className="ticker-wrap">
-      <div ></div>
-      <div id="headline" className="animated-headline text-black ml-4">
+    <div className="ticker-wrap" style={{ display: 'flex', alignItems: 'center' }}>
+      <div></div>
+      <button 
+        id="headline" 
+        className="animated-headline text-black ml-4" 
+        onClick={handleClick}
+        style={{
+          background: 'none',
+          border: 'none',
+          color: 'inherit',
+          cursor: 'pointer',
+          textAlign: 'left',
+          padding: 0,
+          font: 'inherit'
+        }}
+      >
         {headlines.length > 0 && headlines[currentHeadline]?.title}
-      </div>
+      </button>
+      
     </div>
   );
 };

@@ -10,6 +10,7 @@ const App = () => {
   const [showWindow, setShowWindow] = useState(false);
   const [showMusicPlayer, setShowMusicPlayer] = useState(false);
   const [headlines, setHeadlines] = useState([]);
+  const [bgColor, setBgColor] = useState('bg-customColor');
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -42,8 +43,22 @@ const App = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const colors = ['bg-red-500', 'bg-blue-500', 'bg-green-400', 'bg-yellow-500', 'bg-CustomColor', 'bg-pink-400', 'bg-purple-400', 'bg-teal-400'];
+    let colorIndex = 0;
+
+    const changeColor = () => {
+      setBgColor(colors[colorIndex]);
+      colorIndex = (colorIndex + 1) % colors.length;
+    };
+
+    const intervalId = setInterval(changeColor, 12000); // Change color every 3 minutes
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
-    <div className="bg-ozemoyalogo bg-cover bg-custom-size bg-no-repeat bg-fixed bg-[position:200px_50px] h-screen w-full bg-customColor">
+    <div className={`bg-ozemoyalogo bg-cover bg-custom-size bg-no-repeat bg-fixed bg-[position:200px_50px] h-screen w-full ${bgColor}`}>
 
         <div className="flex items-center space-x-6">
           <div className="flex-shrink-0">
