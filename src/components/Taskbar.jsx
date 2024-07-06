@@ -1,33 +1,31 @@
 import React, { useState } from 'react';
-import Headline from './Headline';
 import Time from './Time';
 import Notes from './Notes';
 import FileExplorer from './FileExplorer';
+import Window from './Window';
 
 const Taskbar = ({ onFileExplorerClick, headlines }) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [showWindow, setShowWindow] = useState(false);
-  const [showHeadline, setShowHeadline] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   const [showFileExplorer, setShowFileExplorer] = useState(false);
+  const [defaultApp, setDefaultApp] = useState('C:\\');
 
   const handleNotesClick = () => {
     setShowWindow(false);
-    setShowHeadline(false);
     setShowFileExplorer(false);
     setShowNotes(true);
   };
 
   const handleNewsClick = () => {
+    setDefaultApp('news');
     setShowWindow(true);
-    setShowHeadline(true);
     setShowFileExplorer(false);
     setShowNotes(false);
   };
 
   const handleFileExplorerClick = () => {
     setShowWindow(false);
-    setShowHeadline(false);
     setShowNotes(false);
     setShowFileExplorer(true);
     onFileExplorerClick(); // Trigger the file explorer click handler passed from App.jsx
@@ -35,6 +33,24 @@ const Taskbar = ({ onFileExplorerClick, headlines }) => {
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
+  };
+
+  const handleProjectsClick = () => {
+    setDefaultApp('project');
+    setShowWindow(true);
+    setMenuVisible(false);
+  };
+
+  const handleContactsClick = () => {
+    setDefaultApp('contacts');
+    setShowWindow(true);
+    setMenuVisible(false);
+  };
+
+  const handleServicesClick = () => {
+    setDefaultApp('services');
+    setShowWindow(true);
+    setMenuVisible(false);
   };
 
   return (
@@ -50,9 +66,9 @@ const Taskbar = ({ onFileExplorerClick, headlines }) => {
         {menuVisible && (
           <div className="menu absolute bottom-12 left-0 w-48 bg-white shadow-lg border border-gray-300 rounded-lg">
             <ul>
-              <li className="p-2 hover:bg-gray-100 cursor-pointer">Menu Item 1</li>
-              <li className="p-2 hover:bg-gray-100 cursor-pointer">Menu Item 2</li>
-              <li className="p-2 hover:bg-gray-100 cursor-pointer">Menu Item 3</li>
+              <li className="p-2 hover:bg-gray-100 cursor-pointer" onClick={handleProjectsClick}>Projects</li>
+              <li className="p-2 hover:bg-gray-100 cursor-pointer" onClick={handleContactsClick}>Contacts</li>
+              <li className="p-2 hover:bg-gray-100 cursor-pointer" onClick={handleServicesClick}>Services</li>
             </ul>
           </div>
         )}
@@ -81,25 +97,9 @@ const Taskbar = ({ onFileExplorerClick, headlines }) => {
           <img src="/news.png" alt="News" className="mr-2 w-6" />
         </button>
       </div>
-      
       <Time />
       {showWindow && (
-        <div className="absolute inset-0 flex justify-center items-center">
-          <div className="w-96 h-96 bg-white shadow-lg border border-gray-300 rounded-lg relative">
-            <h1 className='text-center text-3xl first-letter:text-5xl text-black'>News</h1>
-            {showHeadline ? (
-              <Headline headlines={headlines} />
-            ) : (
-              <Window defaultApp="C:\\" />
-            )}
-            <button
-              className="close-button absolute top-1 right-1 bg-gray-300 rounded-full px-2"
-              onClick={() => setShowWindow(false)}
-            >
-              X
-            </button>
-          </div>
-        </div>
+        <Window show={showWindow} onClose={() => setShowWindow(false)} defaultApp={defaultApp} centered />
       )}
       {showNotes && (
         <div className="absolute inset-0 flex justify-center items-center">

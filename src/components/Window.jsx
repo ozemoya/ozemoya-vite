@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const Window = ({ show, onClose, defaultApp = 'C:\\' }) => {
+const Window = ({ show, onClose, defaultApp = 'C:\\', centered = false }) => {
   const [showContacts, setShowContacts] = useState(false);
   const [showProjectInfo, setShowProjectInfo] = useState(false);
   const [showServices, setShowServices] = useState(false);
@@ -207,11 +207,11 @@ const Window = ({ show, onClose, defaultApp = 'C:\\' }) => {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center">
+    <div className={`fixed inset-0 ${centered ? 'flex justify-center items-center' : ''} bg-gray-700 bg-opacity-50`}>
       <div
         ref={windowRef}
         className="w-full max-w-4xl mx-auto mt-10 bg-gray-100 border border-gray-300 shadow-lg absolute"
-        style={{ top: `${dragOffset.y}px`, left: `${dragOffset.x}px` }}
+        style={centered ? { top: '50%', left: '50%', transform: 'translate(-50%, -50%)' } : { top: `${dragOffset.y}px`, left: `${dragOffset.x}px` }}
         onMouseDown={(e) => e.stopPropagation()} // Prevent dragging the window when clicking inside it
       >
         <div
@@ -238,13 +238,13 @@ const Window = ({ show, onClose, defaultApp = 'C:\\' }) => {
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleProjectClick}>Project</li>
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleContactClick}>Contacts</li>
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleServicesClick}>Services</li>
-              </ul>
+                </ul>
               <li className="mb-2"><span className="font-semibold">My Network Places</span></li>
               <li className="mb-2"><span className="font-semibold">Recycle Bin</span></li>
             </ul>
           </div>
           <div className="flex-grow p-2">
-            <div className="bg-white border border-gray-            300 p-2 mb-2">
+            <div className="bg-white border border-gray-300 p-2 mb-2">
               <div className="flex items-center mb-2">
                 <div className="flex-grow text-left text-sm">
                   Address: 
