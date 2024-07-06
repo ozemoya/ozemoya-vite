@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 const MusicPlayer = ({ show, onClose }) => {
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState('https://www.youtube.com/watch?v=Xd5SMgJVEAM&ab_channel=MasayoshiTakanaka-Topic');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLooping, setIsLooping] = useState(true);
   const [songTitle, setSongTitle] = useState('');
