@@ -66,7 +66,7 @@ const App = () => {
   };
 
   return (
-    <div className={`bg-ozemoyalogo bg-cover bg-custom-size bg-no-repeat bg-fixed bg-[position:200px_50px] h-screen w-full ${bgColor}`}>
+    <div className={` overflow-hidden bg-ozemoyalogo bg-cover bg-custom-size bg-no-repeat bg-fixed bg-[position:200px_50px] h-screen w-full ${bgColor}`}>
       <DesktopApps 
         onContactsClick={() => setShowWindow(true)}
         onMusicClick={() => setShowMusicPlayer(true)}
