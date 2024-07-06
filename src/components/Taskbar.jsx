@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
 import Headline from './Headline';
 import Time from './Time';
-import Window from './Window';
 import Notes from './Notes';
+import FileExplorer from './FileExplorer';
 
-const Taskbar = ({ headlines }) => {
+const Taskbar = ({ onFileExplorerClick, headlines }) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [showWindow, setShowWindow] = useState(false);
   const [showHeadline, setShowHeadline] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
+  const [showFileExplorer, setShowFileExplorer] = useState(false);
 
   const handleNotesClick = () => {
     setShowWindow(false);
     setShowHeadline(false);
+    setShowFileExplorer(false);
     setShowNotes(true);
   };
 
   const handleNewsClick = () => {
     setShowWindow(true);
     setShowHeadline(true);
+    setShowFileExplorer(false);
     setShowNotes(false);
   };
 
   const handleFileExplorerClick = () => {
-    setShowWindow(true);
+    setShowWindow(false);
     setShowHeadline(false);
     setShowNotes(false);
+    setShowFileExplorer(true);
+    onFileExplorerClick(); // Trigger the file explorer click handler passed from App.jsx
   };
 
   const toggleMenu = () => {
@@ -78,31 +83,36 @@ const Taskbar = ({ headlines }) => {
       </div>
       <Time />
       {showWindow && (
-        <div style={{ display: showHeadline ? 'block' : 'none' }} className="absolute bottom-16 left-1/2 transform -translate-x-1/2 w-64 h-64 bg-white shadow-lg border border-gray-300 rounded-lg">
-          {showHeadline ? (
-            <Headline headlines={headlines} />
-          ) : (
-            <Window defaultApp="C:\\" />
-          )}
-          <button
-            className="close-button absolute top-1 right-1 bg-gray-300 rounded-full px-2"
-            onClick={() => setShowWindow(false)}
-          >
-            X
-          </button>
+        <div className="absolute inset-0 flex justify-center items-center">
+          <div className="w-96 h-96 bg-white shadow-lg border border-gray-300 rounded-lg relative">
+            {showHeadline ? (
+              <Headline headlines={headlines} />
+            ) : (
+              <Window defaultApp="C:\\" />
+            )}
+            <button
+              className="close-button absolute top-1 right-1 bg-gray-300 rounded-full px-2"
+              onClick={() => setShowWindow(false)}
+            >
+              X
+            </button>
+          </div>
         </div>
       )}
       {showNotes && (
-        <div className="small-window absolute bottom-16 left-1/2 transform -translate-x-1/2 w-64 h-64 bg-white shadow-lg border border-gray-300 rounded-lg">
-          <Notes />
-          <button
-            className="close-button absolute top-1 right-1 bg-gray-300 rounded-full px-2"
-            onClick={() => setShowNotes(false)}
-          >
-            X
-          </button>
+        <div className="absolute inset-0 flex justify-center items-center">
+          <div className="w-96 h-96 bg-white shadow-lg border border-gray-300 rounded-lg relative">
+            <Notes />
+            <button
+              className="close-button absolute top-1 right-1 bg-gray-300 rounded-full px-2"
+              onClick={() => setShowNotes(false)}
+            >
+              X
+            </button>
+          </div>
         </div>
       )}
+      {showFileExplorer && <FileExplorer onClose={() => setShowFileExplorer(false)} />}
     </span>
   );
 };

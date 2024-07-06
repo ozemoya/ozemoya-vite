@@ -20,14 +20,14 @@ const DesktopApps = () => {
 
   return (
     <div>
-      <div className="absolute top-0 left-0 w-40 h-40">
-        <section className="absolute top-8 left-0 flex flex-col items-start justify-evenly text-white mb-10 ml-8">
+      <div className="relative top-0 left-0 w-40 h-40">
+        <section className="absolute top-0 left-0 flex flex-col items-start justify-evenly text-white mb-10 ml-10">
           <div
             id='projects'
             className="flex flex-col mb-2 transform transition-transform hover:-translate-y-1 cursor-pointer hover:bg-[rgba(104,76,76,0.4)] duration-500 py-2 rounded"
             onClick={() => changeApp('project')}
           >
-            <img src="/Projects.png" alt="Projects" className="w-30 p-5" />
+            <img src="/Projects.png" alt="Projects" className="w-24 p-4" />
             <p className="bg-[rgba(104,76,76,0.4)] font-['PixelOperatorMono'] mt-[-10px]">
               Projects
             </p>
@@ -37,7 +37,7 @@ const DesktopApps = () => {
             className="flex flex-col mb-2 transform transition-transform hover:-translate-y-1 cursor-pointer hover:bg-[rgba(104,76,76,0.4)] duration-500 py-2 rounded"
             onClick={() => changeApp('services')}
           >
-            <img src="/Services.png" alt="Services" className="w-30 p-5" />
+            <img src="/Services.png" alt="Services" className="w-24 p-4" />
             <p className="bg-[rgba(104,76,76,0.4)] font-['PixelOperatorMono'] mt-[-10px]">
               Services
             </p>
@@ -47,7 +47,7 @@ const DesktopApps = () => {
             className="flex flex-col mb-2 transform transition-transform hover:-translate-y-1 cursor-pointer hover:bg-[rgba(104,76,76,0.4)] duration-500 py-2 rounded"
             onClick={() => changeApp('contacts')}
           >
-            <img src="/Contacts.png" alt="Contacts" className="w-30 p-5" />
+            <img src="/Contacts.png" alt="Contacts" className="w-24 p-4" />
             <p className="bg-[rgba(104,76,76,0.4)] font-['PixelOperatorMono'] mt-[-10px]">
               Contacts
             </p>
@@ -57,7 +57,7 @@ const DesktopApps = () => {
             className="flex flex-col mb-2 transform transition-transform hover:-translate-y-1 cursor-pointer hover:bg-[rgba(104,76,76,0.4)] duration-500 py-2 rounded"
             onClick={() => changeApp('music')}
           >
-            <img src="/Music.png" alt="Music" className="w-30 p-5" />
+            <img src="/Music.png" alt="Music" className="w-24 p-4" />
             <p className="bg-[rgba(104,76,76,0.4)] font-['PixelOperatorMono'] mt-[-10px]">
               Music
             </p>

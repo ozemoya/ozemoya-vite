@@ -57,24 +57,25 @@ const App = () => {
     return () => clearInterval(intervalId);
   }, []);
 
+  const handleFileExplorerClick = () => {
+    setShowWindow(true);
+  };
+
+  const handleCloseWindow = () => {
+    setShowWindow(false);
+  };
+
   return (
     <div className={`bg-ozemoyalogo bg-cover bg-custom-size bg-no-repeat bg-fixed bg-[position:200px_50px] h-screen w-full ${bgColor}`}>
-
-        <div className="flex items-center space-x-6">
-          <div className="flex-shrink-0">
-           
-          
-        </div>
-      </div>
       <DesktopApps 
         onContactsClick={() => setShowWindow(true)}
         onMusicClick={() => setShowMusicPlayer(true)}
         onProjectsClick={() => setShowWindow(true)}
         onServicesClick={() => setShowWindow(true)}
       />
-      <Window show={showWindow} onClose={() => setShowWindow(false)} />
+      <Window show={showWindow} onClose={handleCloseWindow} />
       <MusicPlayer show={showMusicPlayer} onClose={() => setShowMusicPlayer(false)} />
-      <Taskbar headlines={headlines} />
+      <Taskbar onFileExplorerClick={handleFileExplorerClick} headlines={headlines} />
       <LoadingScreen />
     </div>
   );
