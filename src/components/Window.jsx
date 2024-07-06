@@ -12,62 +12,67 @@ const Window = ({ show, onClose, defaultApp = 'C:\\', centered = false }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [history, setHistory] = useState([defaultApp]);
+  const [historyIndex, setHistoryIndex] = useState(0);
 
   useEffect(() => {
     if (show) {
-      switch (defaultApp) {
-        case 'contacts':
-          setShowContacts(true);
-          setShowProjectInfo(false);
-          setShowServices(false);
-          setShowMusic(false);
-          setShowDesktop(false);
-          setAddress('contacts');
-          break;
-        case 'project':
-          setShowProjectInfo(true);
-          setShowContacts(false);
-          setShowServices(false);
-          setShowMusic(false);
-          setShowDesktop(false);
-          setAddress('project');
-          break;
-        case 'services':
-          setShowServices(true);
-          setShowContacts(false);
-          setShowProjectInfo(false);
-          setShowMusic(false);
-          setShowDesktop(false);
-          setAddress('services');
-          break;
-        case 'music':
-          setShowMusic(true);
-          setShowContacts(false);
-          setShowProjectInfo(false);
-          setShowServices(false);
-          setShowDesktop(false);
-          setAddress('music');
-          break;
-        case 'desktop':
-          setShowDesktop(true);
-          setShowContacts(false);
-          setShowProjectInfo(false);
-          setShowServices(false);
-          setShowMusic(false);
-          setAddress('desktop');
-          break;
-        default:
-          setShowContacts(false);
-          setShowProjectInfo(false);
-          setShowServices(false);
-          setShowMusic(false);
-          setShowDesktop(false);
-          setAddress('C:\\');
-          setFolderContent(getQuickAccessContent());
-          break;
-      }
+      navigateTo(defaultApp);
     }
   }, [show, defaultApp]);
+
+  const navigateTo = (app) => {
+    switch (app) {
+      case 'contacts':
+        setShowContacts(true);
+        setShowProjectInfo(false);
+        setShowServices(false);
+        setShowMusic(false);
+        setShowDesktop(false);
+        break;
+      case 'project':
+        setShowProjectInfo(true);
+        setShowContacts(false);
+        setShowServices(false);
+        setShowMusic(false);
+        setShowDesktop(false);
+        break;
+      case 'services':
+        setShowServices(true);
+        setShowContacts(false);
+        setShowProjectInfo(false);
+        setShowMusic(false);
+        setShowDesktop(false);
+        break;
+      case 'music':
+        setShowMusic(true);
+        setShowContacts(false);
+        setShowProjectInfo(false);
+        setShowServices(false);
+        setShowDesktop(false);
+        break;
+      case 'desktop':
+        setShowDesktop(true);
+        setShowContacts(false);
+        setShowProjectInfo(false);
+        setShowServices(false);
+        setShowMusic(false);
+        break;
+      default:
+        setShowContacts(false);
+        setShowProjectInfo(false);
+        setShowServices(false);
+        setShowMusic(false);
+        setShowDesktop(false);
+        setFolderContent(getQuickAccessContent());
+        break;
+    }
+    setAddress(app);
+    const newHistory = [...history];
+    newHistory.splice(historyIndex + 1, newHistory.length - historyIndex - 1, app);
+    setHistory(newHistory);
+    setHistoryIndex(newHistory.length - 1);
+  };
 
   const getQuickAccessContent = () => {
     return [
@@ -77,49 +82,26 @@ const Window = ({ show, onClose, defaultApp = 'C:\\', centered = false }) => {
     ];
   };
 
-  const handleContactClick = () => {
-    setShowContacts(true);
-    setShowProjectInfo(false);
-    setShowServices(false);
-    setShowMusic(false);
-    setShowDesktop(false);
-    setAddress('contacts');
+  const handleContactClick = () => navigateTo('contacts');
+  const handleProjectClick = () => navigateTo('project');
+  const handleServicesClick = () => navigateTo('services');
+  const handleMusicClick = () => navigateTo('music');
+  const handleDesktopClick = () => navigateTo('desktop');
+
+  const handleBackClick = () => {
+    if (historyIndex > 0) {
+      const newIndex = historyIndex - 1;
+      navigateTo(history[newIndex]);
+      setHistoryIndex(newIndex);
+    }
   };
 
-  const handleProjectClick = () => {
-    setShowProjectInfo(true);
-    setShowContacts(false);
-    setShowServices(false);
-    setShowMusic(false);
-    setShowDesktop(false);
-    setAddress('project');
-  };
-
-  const handleServicesClick = () => {
-    setShowServices(true);
-    setShowContacts(false);
-    setShowProjectInfo(false);
-    setShowMusic(false);
-    setShowDesktop(false);
-    setAddress('services');
-  };
-
-  const handleMusicClick = () => {
-    setShowMusic(true);
-    setShowContacts(false);
-    setShowProjectInfo(false);
-    setShowServices(false);
-    setShowDesktop(false);
-    setAddress('music');
-  };
-
-  const handleDesktopClick = () => {
-    setShowDesktop(true);
-    setShowContacts(false);
-    setShowProjectInfo(false);
-    setShowServices(false);
-    setShowMusic(false);
-    setAddress('desktop');
+  const handleForwardClick = () => {
+    if (historyIndex < history.length - 1) {
+      const newIndex = historyIndex + 1;
+      navigateTo(history[newIndex]);
+      setHistoryIndex(newIndex);
+    }
   };
 
   const handleMouseDown = (e) => {
@@ -162,46 +144,7 @@ const Window = ({ show, onClose, defaultApp = 'C:\\', centered = false }) => {
   }, [isDragging]);
 
   const handleGoClick = () => {
-    // Simulate folder content fetching based on address
-    if (address === 'C:\\') {
-      setFolderContent([
-        { name: 'Documents and Settings', icon: 'folder.png' },
-        { name: 'Program Files', icon: 'folder.png' },
-        { name: 'WINDOWS', icon: 'folder.png' },
-      ]);
-    } else if (address.toLowerCase() === 'contacts') {
-      setShowContacts(true);
-      setShowProjectInfo(false);
-      setShowServices(false);
-      setShowMusic(false);
-      setShowDesktop(false);
-    } else if (address.toLowerCase() === 'project') {
-      setShowProjectInfo(true);
-      setShowContacts(false);
-      setShowServices(false);
-      setShowMusic(false);
-      setShowDesktop(false);
-    } else if (address.toLowerCase() === 'services') {
-      setShowServices(true);
-      setShowContacts(false);
-      setShowProjectInfo(false);
-      setShowMusic(false);
-      setShowDesktop(false);
-    } else if (address.toLowerCase() === 'music') {
-      setShowMusic(true);
-      setShowContacts(false);
-      setShowProjectInfo(false);
-      setShowServices(false);
-      setShowDesktop(false);
-    } else if (address.toLowerCase() === 'desktop') {
-      setShowDesktop(true);
-      setShowContacts(false);
-      setShowProjectInfo(false);
-      setShowServices(false);
-      setShowMusic(false);
-    } else {
-      setFolderContent([]);
-    }
+    navigateTo(address);
   };
 
   if (!show) return null;
@@ -238,7 +181,7 @@ const Window = ({ show, onClose, defaultApp = 'C:\\', centered = false }) => {
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleProjectClick}>Project</li>
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleContactClick}>Contacts</li>
                 <li className="mb-2 cursor-pointer text-blue-500" onClick={handleServicesClick}>Services</li>
-                </ul>
+              </ul>
               <li className="mb-2"><span className="font-semibold">My Network Places</span></li>
               <li className="mb-2"><span className="font-semibold">Recycle Bin</span></li>
             </ul>
@@ -258,8 +201,8 @@ const Window = ({ show, onClose, defaultApp = 'C:\\', centered = false }) => {
                 <button className="bg-gray-300 p-1 rounded-full" onClick={handleGoClick}>Go</button>
               </div>
               <div className="flex space-x-4">
-                <div className="text-sm cursor-pointer">Back</div>
-                <div className="text-sm cursor-pointer">Forward</div>
+                <div className="text-sm cursor-pointer" onClick={handleBackClick}>Back</div>
+                <div className="text-sm cursor-pointer" onClick={handleForwardClick}>Forward</div>
               </div>
             </div>
             <div className="bg-white border border-gray-300 p-2">
@@ -274,7 +217,7 @@ const Window = ({ show, onClose, defaultApp = 'C:\\', centered = false }) => {
                   <h2 className="font-bold text-lg mb-2">Projects</h2>
                   <menu> 
                     <a href="https://ozemoya.github.io/tictactoe/" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-500 hover:underline mb-2">Tic-Tac-Toe</a>
-                    <a href="https://ozemoya.github.io/investment-project/" target="_blank" rel="noopener noreferrer" className=" p-3 text-sm text-blue-500 hover:underline mb-2">Investment Project</a>
+                    <a href="https://ozemoya.github.io/investment-project/" target="_blank" rel="noopener noreferrer" className="p-3 text-sm text-blue-500 hover:underline mb-2">Investment Project</a>
                   </menu>
                 </div>
               ) : showServices ? (
