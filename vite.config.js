@@ -7,7 +7,7 @@ export default defineConfig({
   // vite.config.js
 
   // other configurations
-  base: '/ozemoya-vite/', // replace 'your-repo-name' with your repository name
+  base: '/ozemoya.github.io/', // replace 'your-repo-name' with your repository name
   build: {
     outDir: 'dist',
   },
