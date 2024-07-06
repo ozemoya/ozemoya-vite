@@ -10,6 +10,7 @@ const Window = ({ show, onClose, defaultApp = 'C:\\' }) => {
   const [folderContent, setFolderContent] = useState([]);
   const windowRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -122,18 +123,22 @@ const Window = ({ show, onClose, defaultApp = 'C:\\' }) => {
   };
 
   const handleMouseDown = (e) => {
-    setIsDragging(true);
-    const rect = windowRef.current.getBoundingClientRect();
-    setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    if (e.target.classList.contains('draggable')) {
+      setIsDragging(true);
+      const rect = windowRef.current.getBoundingClientRect();
+      setDragStart({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    }
   };
 
   const handleMouseMove = (e) => {
     if (isDragging) {
-      windowRef.current.style.left = `${e.clientX - dragOffset.x}px`;
-      windowRef.current.style.top = `${e.clientY - dragOffset.y}px`;
+      setDragOffset({
+        x: e.clientX - dragStart.x,
+        y: e.clientY - dragStart.y,
+      });
     }
   };
 
@@ -206,11 +211,11 @@ const Window = ({ show, onClose, defaultApp = 'C:\\' }) => {
       <div
         ref={windowRef}
         className="w-full max-w-4xl mx-auto mt-10 bg-gray-100 border border-gray-300 shadow-lg absolute"
-        style={{ top: '10px', left: '50%', transform: 'translateX(-50%)' }}
+        style={{ top: `${dragOffset.y}px`, left: `${dragOffset.x}px` }}
         onMouseDown={(e) => e.stopPropagation()} // Prevent dragging the window when clicking inside it
       >
         <div
-          className="bg-gray-200 border-b border-gray-300 p-2 flex items-center justify-between cursor-move"
+          className="bg-gray-200 border-b border-gray-300 p-2 flex items-center justify-between cursor-move draggable"
           onMouseDown={handleMouseDown}
         >
           <div className="text-left font-bold text-sm">Local Disk (C:)</div>
@@ -239,8 +244,8 @@ const Window = ({ show, onClose, defaultApp = 'C:\\' }) => {
             </ul>
           </div>
           <div className="flex-grow p-2">
-            <div className="bg-white border border-gray-300 p-2 mb-2">
-              <div className="flex                 items-center mb-2">
+            <div className="bg-white border border-gray-            300 p-2 mb-2">
+              <div className="flex items-center mb-2">
                 <div className="flex-grow text-left text-sm">
                   Address: 
                   <input
@@ -254,8 +259,8 @@ const Window = ({ show, onClose, defaultApp = 'C:\\' }) => {
               </div>
               <div className="flex space-x-4">
                 <div className="text-sm cursor-pointer">Back</div>
-                <div className="text-sm cursor-pointer">Forward</div>
-                
+                <div className="text-sm cursor-pointer">Search</div>
+                <div className="text-sm cursor-pointer">Folders</div>
               </div>
             </div>
             <div className="bg-white border border-gray-300 p-2">
@@ -270,7 +275,7 @@ const Window = ({ show, onClose, defaultApp = 'C:\\' }) => {
                   <h2 className="font-bold text-lg mb-2">Projects</h2>
                   <menu> 
                     <a href="https://ozemoya.github.io/tictactoe/" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-500 hover:underline mb-2">Tic-Tac-Toe</a>
-                    <a href="https://ozemoya.github.io/investment-project/" target="_blank" rel="noopener noreferrer" className="p-3 text-sm text-blue-500 hover:underline mb-2">Investment Project</a>
+                    <a href="https://ozemoya.github.io/investment-project/" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-500 hover:underline mb-2">Investment Project</a>
                   </menu>
                 </div>
               ) : showServices ? (
