@@ -259,8 +259,7 @@ const Window = ({ show, onClose, defaultApp = 'C:\\', centered = false }) => {
               </div>
               <div className="flex space-x-4">
                 <div className="text-sm cursor-pointer">Back</div>
-                <div className="text-sm cursor-pointer">Search</div>
-                <div className="text-sm cursor-pointer">Folders</div>
+                <div className="text-sm cursor-pointer">Forward</div>
               </div>
             </div>
             <div className="bg-white border border-gray-300 p-2">
@@ -275,7 +274,7 @@ const Window = ({ show, onClose, defaultApp = 'C:\\', centered = false }) => {
                   <h2 className="font-bold text-lg mb-2">Projects</h2>
                   <menu> 
                     <a href="https://ozemoya.github.io/tictactoe/" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-500 hover:underline mb-2">Tic-Tac-Toe</a>
-                    <a href="https://ozemoya.github.io/investment-project/" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-500 hover:underline mb-2">Investment Project</a>
+                    <a href="https://ozemoya.github.io/investment-project/" target="_blank" rel="noopener noreferrer" className=" p-3 text-sm text-blue-500 hover:underline mb-2">Investment Project</a>
                   </menu>
                 </div>
               ) : showServices ? (
@@ -311,14 +310,14 @@ const Window = ({ show, onClose, defaultApp = 'C:\\', centered = false }) => {
                   <ul>
                     {folderContent.map((item, index) => (
                       <li key={index} className="mb-2 cursor-pointer text-blue-500" onClick={item.onClick || null}>
-                        <img src={item.icon} alt="Folder Icon" className="inline-block mr-2" />
+                        <img src={item.icon} alt="" className="inline-block mr-2" />
                         {item.name}
                       </li>
                     ))}
                   </ul>
                   <h3 className="font-bold text-lg mt-4 mb-2">Recent</h3>
                   <ul>
-                    <li className="mb-2">new folder icons</li>
+                    <li className="mb-2">soonr</li>
                   </ul>
                 </div>
               )}
