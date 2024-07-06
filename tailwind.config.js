@@ -1,4 +1,5 @@
-/** @type {import('tailwindcss').Config} */module.exports = {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   darkMode: false, // or 'media' or 'class'
   theme: {
@@ -9,10 +10,12 @@
       backgroundImage: theme => ({
         'ozemoyalogo': "url('/ozemoyalogo.gif')",
       }),
+      backgroundPosition: {
+        'centered': 'center',
+      },
       colors: {
         customColor: '#d4a373',
       },
-
       keyframes: {
         fadeOut: {
           '0%': { opacity: '1' },
