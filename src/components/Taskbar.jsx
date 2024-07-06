@@ -59,6 +59,14 @@ const Taskbar = ({ onFileExplorerClick, headlines }) => {
       </div>
       <div className="flex items-center ml-2">
         <button
+          className="file-explorer-button flex items-center bg-gray-400 rounded-lg border-black h-10 px-1 shadow"
+          onClick={handleFileExplorerClick}
+        >
+          <img src="/fileexplorer.png" alt="File Explorer" className="mr-2 w-6" />
+        </button>
+      </div>
+      <div className="flex items-center ml-2">
+        <button
           className="notes-button flex items-center bg-gray-400 rounded-lg border-black h-10 px-1 shadow"
           onClick={handleNotesClick}
         >
@@ -73,14 +81,7 @@ const Taskbar = ({ onFileExplorerClick, headlines }) => {
           <img src="/news.png" alt="News" className="mr-2 w-6" />
         </button>
       </div>
-      <div className="flex items-center ml-2">
-        <button
-          className="file-explorer-button flex items-center bg-gray-400 rounded-lg border-black h-10 px-1 shadow"
-          onClick={handleFileExplorerClick}
-        >
-          <img src="/fileexplorer.png" alt="File Explorer" className="mr-2 w-6" />
-        </button>
-      </div>
+      
       <Time />
       {showWindow && (
         <div className="absolute inset-0 flex justify-center items-center">
