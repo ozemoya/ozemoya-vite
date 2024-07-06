@@ -218,6 +218,7 @@ const Window = ({ show, onClose, defaultApp = 'C:\\', centered = false }) => {
                   <menu> 
                     <a href="https://ozemoya.github.io/tictactoe/" target="_blank" rel="noopener noreferrer" className="text-sm text-blue-500 hover:underline mb-2">Tic-Tac-Toe</a>
                     <a href="https://ozemoya.github.io/investment-project/" target="_blank" rel="noopener noreferrer" className="p-3 text-sm text-blue-500 hover:underline mb-2">Investment Project</a>
+                    <a href="https://ozemoya.github.io/basicreact/" target="_blank" rel="noopener noreferrer" className="p-3 text-sm text-blue-500 hover:underline mb-2">Basic React</a>
                   </menu>
                 </div>
               ) : showServices ? (
