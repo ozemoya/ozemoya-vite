@@ -86,6 +86,7 @@ const Taskbar = ({ onFileExplorerClick, headlines }) => {
       {showWindow && (
         <div className="absolute inset-0 flex justify-center items-center">
           <div className="w-96 h-96 bg-white shadow-lg border border-gray-300 rounded-lg relative">
+            <h1 className='text-center text-3xl first-letter:text-5xl text-black'>News</h1>
             {showHeadline ? (
               <Headline headlines={headlines} />
             ) : (
