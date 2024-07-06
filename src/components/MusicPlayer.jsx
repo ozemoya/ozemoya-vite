@@ -15,14 +15,14 @@ const MusicPlayer = ({ show, onClose }) => {
 
   const handlePlay = () => {
     if (audioRef.current) {
-      audioRef.current.play();
+      audioRef.current.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
       setIsPlaying(true);
     }
   };
 
   const handlePause = () => {
     if (audioRef.current) {
-      audioRef.current.pause();
+      audioRef.current.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
       setIsPlaying(false);
     }
   };
@@ -34,9 +34,9 @@ const MusicPlayer = ({ show, onClose }) => {
   const handleLoad = () => {
     const videoID = extractVideoID(url);
     if (videoID) {
-      const embedUrl = `https://www.youtube.com/embed/${videoID}?autoplay=1&loop=${isLooping ? 1 : 0}&playlist=${videoID}`;
+      const embedUrl = `https://www.youtube.com/embed/${videoID}?enablejsapi=1&autoplay=1&loop=${isLooping ? 1 : 0}&playlist=${videoID}`;
       audioRef.current.src = embedUrl;
-      audioRef.current.play();
+      audioRef.current.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
       setIsPlaying(true);
       fetchSongTitle(videoID);
     } else {
@@ -100,7 +100,7 @@ const MusicPlayer = ({ show, onClose }) => {
             </div>
           </div>
           <div className="text-center mt-4">
-            {songTitle && <h3 className="text-lg font-bold">{songTitle}</h3>}
+            {songTitle && <h3 className="text-lg font-bold py-2">{songTitle}</h3>}
           </div>
         </div>
       )}
@@ -111,6 +111,7 @@ const MusicPlayer = ({ show, onClose }) => {
         height="0"
         frameBorder="0"
         allow="autoplay"
+        src=""
       ></iframe>
     </>
   );

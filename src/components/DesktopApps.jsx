@@ -65,7 +65,7 @@ const DesktopApps = () => {
         </section>
       </div>
       {showWindow && <Window show={showWindow} onClose={() => setShowWindow(false)} defaultApp={defaultApp} />}
-      {showMusicPlayer && <MusicPlayer show={showMusicPlayer} onClose={() => setShowMusicPlayer(false)} />}
+      <MusicPlayer show={showMusicPlayer} onClose={() => setShowMusicPlayer(false)} />
     </div>
   );
 };
